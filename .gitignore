@@ -6,3 +6,5 @@ venv/
 .venv
 *.old
 *.bak
+*.db
+*.sqlite
