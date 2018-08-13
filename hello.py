@@ -19,6 +19,9 @@ bootstrap = Bootstrap(app)
 moment = Moment(app)
 db = SQLAlchemy(app)
 
+@app.shell_context_processor
+def make_shell_context():
+    return dict(db=db, User=User, Role=Role)
 
 class NameForm(FlaskForm):
     name = StringField('Как тебя зовут?', validators=[DataRequired()])
