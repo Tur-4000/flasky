@@ -1,5 +1,6 @@
 set FLASK_APP=flasky.py
 set FLASK_DEBUG=1
+set MAIL_USE_TLS=0
 set MAIL_USERNAME=flasky@localhost.loc
 set MAIL_PASSWORD=111
 set FLASKY_ADMIN=flasky@localhost.loc
