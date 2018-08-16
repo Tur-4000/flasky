@@ -1,0 +1,15 @@
+initial migration
+    aecbec2876f0	
+hash_password
+    46d6664c459a	
+User email	
+    d6878777e85b	
+user confirmed
+    8f418b53e3e2	
+role table
+    aa401b03611b	
+user profile	
+    f98f5a189ca4	
+gravatar
+    1918a611905c
+

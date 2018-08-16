@@ -2,7 +2,7 @@ from datetime import datetime
 from flask import render_template, session, redirect, url_for, current_app, flash
 from flask_login import login_required, current_user
 from .. import db
-from ..models import User
+from ..models import User, Role
 from ..email import send_email
 from ..decorators import admin_required
 from . import main
