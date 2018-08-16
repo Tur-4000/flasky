@@ -163,7 +163,8 @@ class UserModelTestCase(unittest.TestCase):
             gravatar_256 = u.gravatar(size=256)
             gravatar_pg = u.gravatar(rating='pg')
             gravatar_retro = u.gravatar(default='retro')
-        self.assertTrue('https://secure.gravatar.com/avatar/d4c74594d841139328695756648b6bd6' in gravatar)
+        self.assertTrue('http://secure.gravatar.com/avatar/' +
+                        'd4c74594d841139328695756648b6bd6' in gravatar)
         self.assertTrue('s=256' in gravatar_256)
         self.assertTrue('r=pg' in gravatar_pg)
         self.assertTrue('d=retro' in gravatar_retro)
