@@ -184,7 +184,7 @@ class User(UserMixin, db.Model):
     def gravatar_hash(self):
         return hashlib.md5(self.email.lower().encode('utf-8')).hexdigest()
 
-    def gravatar(self, size=100, default='monsterid', rating='g'):
+    def gravatar(self, size=100, default='retro', rating='g'):
         if request.is_secure:
             url = 'https://secure.gravatar.com/avatar'
         else:
