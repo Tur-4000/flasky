@@ -270,6 +270,7 @@ class Post(db.Model):
             markdown(value, output_format='html'),
             tags=allowed_tags, strip=True))
 
+
 db.event.listen(Post.body, 'set', Post.on_changed_body)
 
 
@@ -289,5 +290,6 @@ class Comment(db.Model):
         target.body_html = bleach.linkify(bleach.clean(
             markdown(value, output_format='html'),
             tags=allowed_tags, strip=True))
+
 
 db.event.listen(Comment.body, 'set', Comment.on_changed_body)
