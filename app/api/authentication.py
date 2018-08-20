@@ -5,12 +5,12 @@ from . import api
 from .errors import unauthorized, forbidden
 
 
-auth = HTTPBasicAuth
+auth = HTTPBasicAuth()
 
 
 @auth.verify_password
 def verify_password(email_or_token, password):
-    if email == '':
+    if email_or_token == '':
         return False
     if password == '':
         g.current_user = User.verify_auth_token(email_or_token)
