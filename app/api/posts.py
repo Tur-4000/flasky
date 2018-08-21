@@ -1,6 +1,6 @@
-from flask import jsonify, request, url_for, g, current_app
+from flask import jsonify, request, g, url_for, current_app
 from .. import db
-from app.models import Post, Permission
+from ..models import Post, Permission
 from . import api
 from .decorators import permission_required
 from .errors import forbidden
@@ -10,7 +10,7 @@ from .errors import forbidden
 def get_posts():
     page = request.args.get('page', 1, type=int)
     pagination = Post.query.paginate(
-        page, per_page=current_app.config['FLASKY_POST_PER_PAGE'],
+        page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
         error_out=False)
     posts = pagination.items
     prev = None
@@ -40,8 +40,8 @@ def new_post():
     post.author = g.current_user
     db.session.add(post)
     db.session.commit()
-    return jsonify(post.to_json(), 201, \
-                   {'Location': url_for('api.get_post', id=post.id)})
+    return jsonify(post.to_json()), 201, \
+        {'Location': url_for('api.get_post', id=post.id)}
 
 
 @api.route('/posts/<int:id>', methods=['PUT'])
@@ -55,4 +55,3 @@ def edit_post(id):
     db.session.add(post)
     db.session.commit()
     return jsonify(post.to_json())
-
