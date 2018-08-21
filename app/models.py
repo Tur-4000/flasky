@@ -294,7 +294,8 @@ class Post(db.Model):
         allowed_tags = ['a', 'abbr', 'acronym', 'b', 'blockquote', 'code',
                         'em', 'i', 'li', 'ol', 'pre', 'strong', 'ul',
                         'h1', 'h2', 'h3', 'h4', 'p', 'img']
-        allowed_attrs = {'img': ['src', 'alt']}
+        allowed_attrs = {'img': ['src', 'alt'],
+                         'a': ['href']}
         target.body_html = bleach.linkify(bleach.clean(
             markdown(value, output_format='html'),
             tags=allowed_tags, attributes=allowed_attrs, strip=True))
