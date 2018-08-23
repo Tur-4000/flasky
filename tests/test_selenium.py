@@ -14,7 +14,8 @@ class SeleniumTestCase(unittest.TestCase):
     def setUpClass(cls):
         # start Chrome
         options = webdriver.ChromeOptions()
-        options.add_argument('headless')
+        options.add_argument('--headless')
+        options.add_argument('--disable-gpu')
         try:
             cls.client = webdriver.Chrome(chrome_options=options)
         except:
@@ -40,8 +41,8 @@ class SeleniumTestCase(unittest.TestCase):
 
             # add an administrator user
             admin_role = Role.query.filter_by(name='Administrator').first()
-            admin = User(email='john@example.com',
-                         username='john', password='cat',
+            admin = User(email='admin@localhost.loc',
+                         username='Admin', password='cat',
                          role=admin_role, confirmed=True)
             db.session.add(admin)
             db.session.commit()
@@ -88,11 +89,11 @@ class SeleniumTestCase(unittest.TestCase):
 
         # login
         self.client.find_element_by_name('email'). \
-            send_keys('john@example.com')
-        self.client.find_element_by_name('password').send_keys('cat')
+            send_keys('admin@localhost.loc')
+        self.client.find_element_by_name('password').send_keys('111')
         self.client.find_element_by_name('submit').click()
-        self.assertTrue(re.search('Hello,\s+john!', self.client.page_source))
+        self.assertTrue(re.search('Hello,\s+Admin!', self.client.page_source))
 
         # navigate to the user's profile page
         self.client.find_element_by_link_text('Profile').click()
-        self.assertIn('<h1>john</h1>', self.client.page_source)
+        self.assertIn('<h1>Admin</h1>', self.client.page_source)
