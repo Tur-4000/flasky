@@ -56,4 +56,5 @@ def profile(lenght, profile_dir):
     from werkzeug.contrib.profiler import ProfilerMiddleware
     app.wsgi_app = ProfilerMiddleware(app.wsgi_app, restrictions=[lenght],
                                       profile_dir=profile_dir)
-    app.run(debug=False)
+    if __name__ == '__main__':
+        app.run(debug=False)
