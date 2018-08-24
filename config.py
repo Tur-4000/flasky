@@ -6,14 +6,14 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or \
                             'e2e36e5a223f49459d96c67b7d1b9fe8'
-    MAIL_SERVER = os.environ.get('MAIL_SERVER', 'localhost.loc')
-    MAIL_PORT = os.environ.get('MAIL_PORT', '25')
+    MAIL_SERVER = os.environ.get('MAIL_SERVER', 'smtp.googlemail.com')
+    MAIL_PORT = os.environ.get('MAIL_PORT', '587')
     MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS', 'true').lower() in \
                    ['true', 'on', '1']
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     FLASKY_MAIL_SUBJECT_PREFIX = '[Flasky]'
-    FLASKY_MAIL_SENDER = 'Flasky Admin <flasky@localhost.loc>'
+    FLASKY_MAIL_SENDER = 'Flasky Admin <tur.flasky@gmail.com>'
     FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     FLASKY_POSTS_PER_PAGE = 20
@@ -57,7 +57,7 @@ class ProductionConfig(Config):
         if getattr(cls, 'MAIL_USERNAME', None) is not None:
             credentials = (cls.MAIL_USERNAME, cls.MAIL_PASSWORD)
             if getattr(cls, 'MAIL_USE_TLS', None):
-                secure()
+                secure = ()
         mail_handler = SMTPHandler(
             mailhost=(cls.MAIL_SERVER, cls.MAIL_PORT),
             fromaddr=cls.FLASKY_MAIL_SENDER,
