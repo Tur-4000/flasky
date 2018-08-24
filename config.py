@@ -8,8 +8,8 @@ class Config:
                             'e2e36e5a223f49459d96c67b7d1b9fe8'
     MAIL_SERVER = os.environ.get('MAIL_SERVER', 'localhost.loc')
     MAIL_PORT = os.environ.get('MAIL_PORT', '25')
-    MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS', 'false').lower(
-                                            ) in ['false', 'off', '0']
+    MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS', 'true').lower() in \
+                   ['true', 'on', '1']
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     FLASKY_MAIL_SUBJECT_PREFIX = '[Flasky]'
@@ -21,6 +21,7 @@ class Config:
     FLASKY_COMMENTS_PER_PAGE = 30
     SQLALCHEMY_RECORD_QUERIES = True
     FLASKY_SLOW_DB_QUERY_TIME = 0.1
+    SSL_REDIRECT = False
 
     @staticmethod
     def init_app(app):
@@ -68,10 +69,30 @@ class ProductionConfig(Config):
         app.logger.addHandler(mail_handler)
 
 
+class HerokuConfig(ProductionConfig):
+    SSL_REDIRECT = True if os.environ.get('DYNO') else False
+
+    @classmethod
+    def init_app(cls, app):
+        ProductionConfig.init_app(app)
+
+        # log to stderr
+        import logging
+        from logging import StreamHandler
+        file_handler = StreamHandler()
+        file_handler.setLevel(logging.INFO)
+        app.logger.addHandler(file_handler)
+
+        # handle reverse proxy server headers
+        from werkzeug.contrib.fixers import ProxyFix
+        app.wsgi_app = ProxyFix(app.wsgi_app)
+
+
 config = {
     'development': DevelopmentConfig,
     'testing': TestingConfig,
     'production': ProductionConfig,
+    'heroku': HerokuConfig,
 
     'default': DevelopmentConfig
 }

@@ -13,6 +13,7 @@ from app.models import User, Role, Permission, Post, Follow, Comment
 from flask_migrate import Migrate, upgrade
 
 
+from config import Config
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 migrate = Migrate(app, db)
 

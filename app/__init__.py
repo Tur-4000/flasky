@@ -7,8 +7,8 @@ from flask_sqlalchemy import SQLAlchemy
 from config import config
 from flask_login import LoginManager
 from flask_pagedown import PageDown
-import logging
-from logging.handlers import RotatingFileHandler
+# import logging
+# from logging.handlers import RotatingFileHandler
 
 bootstrap = Bootstrap()
 mail = Mail()
@@ -31,6 +31,10 @@ def create_app(config_name):
     login_manager.init_app(app)
     pagedown.init_app(app)
 
+    if app.config['SSL_REDIRECT']:
+        from flask_sslify import SSLify
+        sslify = SSLify(app)
+
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
 
@@ -40,16 +44,16 @@ def create_app(config_name):
     from .api import api as api_blueprint
     app.register_blueprint(api_blueprint, url_prefix='/api/v1')
 
-    if not os.path.exists('logs'):
-        os.mkdir('logs')
-    file_handler = RotatingFileHandler('logs/flasky.log',
-                                       maxBytes=1048576, backupCount=10)
-    file_handler.setFormatter(logging.Formatter(
-        '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
-    file_handler.setLevel(logging.INFO)
-    app.logger.addHandler(file_handler)
-
-    app.logger.setLevel(logging.INFO)
-    app.logger.info('Flasky startup')
+    # if not os.path.exists('logs'):
+    #     os.mkdir('logs')
+    # file_handler = RotatingFileHandler('logs/flasky.log',
+    #                                    maxBytes=1048576, backupCount=10)
+    # file_handler.setFormatter(logging.Formatter(
+    #     '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
+    # file_handler.setLevel(logging.INFO)
+    # app.logger.addHandler(file_handler)
+    #
+    # app.logger.setLevel(logging.INFO)
+    # app.logger.info('Flasky startup')
 
     return app
